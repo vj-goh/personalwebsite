@@ -487,6 +487,14 @@ const Projects = () => {
       {showMore && (
         <div className="grid md:grid-cols-2 gap-8 mt-8 animate-fade-in">
           <ProjectCard
+            icon={Globe}
+            title="iSchool Information Portal"
+            description="Professional web portal for RIT's iSchool built with React, consuming data from a REST API. Displays information about academic programs, degrees, minors, employment opportunities, and faculty through interactive UI components with dynamic data fetching and formatting."
+            link="https://people.rit.edu/mcg4527/project2/dist/"
+            linkText="Visit Site"
+            tags={['React', 'JavaScript', 'REST API', 'UI Components', 'Full Stack']}
+          />
+          <ProjectCard
             icon={Code}
             title="Packet Capture Analysis Tool"
             description="Python script that outputs filtered information from packets. Original text files contained ICMP Echo Request & Reply packets for network troubleshooting and analysis."
@@ -498,7 +506,7 @@ const Projects = () => {
             icon={Globe}
             title="Vacation Website"
             description="Multi-page website with forms and comment thread linked to MySQL database, themed around Bali, Indonesia. Demonstrates full-stack web development skills."
-            link="./project1/bali_home.html"
+            link="https://people.rit.edu/~mcg4527/ISTE240/project1/bali_home.html"
             linkText="Visit Site"
             tags={['HTML', 'CSS', 'MySQL', 'PHP', 'Full Stack']}
           />

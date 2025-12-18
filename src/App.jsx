@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { 
@@ -16,7 +17,13 @@ import {
   Download,
   Network,
   Container,
-  Plus
+  Plus,
+  BookOpen,
+  Terminal,
+  Server,
+  Database,
+  Shield,
+  Star
 } from 'lucide-react';
 
 const Header = () => {
@@ -41,7 +48,7 @@ const Header = () => {
         />
         
         <ul className="hidden md:flex space-x-8">
-          {['About', 'Projects', 'Contact'].map((item) => (
+          {['About', 'Projects', 'Labwork', 'Contact'].map((item) => (
             <li key={item}>
               <a 
                 href={`#${item.toLowerCase()}`} 
@@ -65,7 +72,7 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t">
           <ul className="px-4 py-4 space-y-4">
-            {['About', 'Projects', 'Contact'].map((item) => (
+            {['About', 'Projects', 'Labwork', 'Contact'].map((item) => (
               <li key={item}>
                 <a 
                   href={`#${item.toLowerCase()}`}
@@ -109,7 +116,7 @@ const Hero = () => (
         <p className="text-gray-500">The Bronx, NY</p>
       </div>
 
-      <div className="flex gap-4 justify-center pt-6">
+      <div className="flex flex-wrap gap-4 justify-center pt-6">
         <a 
           href="#contact"
           className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all duration-300"
@@ -121,6 +128,12 @@ const Hero = () => (
           className="px-8 py-3 border-2 border-purple-600 text-purple-600 rounded-full font-medium hover:bg-purple-50 hover:scale-105 transition-all duration-300"
         >
           View Projects
+        </a>
+        <a 
+          href="#labwork"
+          className="px-8 py-3 border-2 border-purple-600 text-purple-600 rounded-full font-medium hover:bg-purple-50 hover:scale-105 transition-all duration-300"
+        >
+          View Labwork
         </a>
       </div>
 
@@ -194,12 +207,14 @@ const About = () => {
       {
         title: 'Advanced Network Routing and Switching',
         subtitle: 'In-depth study of wired network infrastructures and protocols',
-        skills: ['Switches', 'Routers', 'VLANs', 'OSI Model', 'TCP/IP', 'Wireshark']
+        skills: ['Switches', 'Routers', 'VLANs', 'OSI Model', 'TCP/IP', 'Wireshark'],
+        labworkLink: 'NSSA 441'
       },
       {
         title: 'Wireless Networking',
         subtitle: 'Gained exposure to WLAN technologies and developed a site survey for proper WLAN coverage.',
-        skills: ['WLANs', 'Access Points', 'IEEE 802.3 & 802.11', 'OFDM', 'DSSS', 'MIMO']
+        skills: ['WLANs', 'Access Points', 'IEEE 802.3 & 802.11', 'OFDM', 'DSSS', 'MIMO'],
+        labworkLink: 'Wireless Networking'
       },
       {
         title: 'Database and Data Modeling',
@@ -222,14 +237,22 @@ const About = () => {
         skills: ['React', 'jQuery', '.NET', 'DOM', 'Web Storage', 'Animation', 'Event-handling']
       },
       {
+        title: 'Network Services',
+        subtitle: 'Introduced to IPs, as well as DNS, DHCP, TCP/UDP, and more network service protocols.',
+        skills: ['TCP/IP', 'UDP', 'SSH', 'VoIP', 'DNS'],
+        labworkLink: 'NSSA 245'
+      },
+      {
         title: 'Task Automation Using Interpreting Languages',
         subtitle: 'Introduced to Linux OS, with scripting experience in Python and Linux Bash.',
-        skills: ['Python', 'Linux', 'Unix', 'Bash Scripting', 'Automation']
+        skills: ['Python', 'Linux', 'Unix', 'Bash Scripting', 'Automation'],
+        labworkLink: 'NSSA 220'
       },
       {
         title: 'Systems Administration I',
         subtitle: 'Learned server operating systems, system operations, and other essential system administration skills.',
-        skills: ['Virtual Machines', 'Python', 'Windows Server', 'DNS', 'DHCP', 'Apache', 'VMWare']
+        skills: ['Virtual Machines', 'Python', 'Windows Server', 'DNS', 'DHCP', 'Apache', 'VMWare'],
+        labworkLink: 'NSSA 221'
       },
     ],
     education: [
@@ -337,7 +360,7 @@ const About = () => {
                   {expandedClass === index && (
                     <div className="px-6 py-4 bg-gradient-to-br from-purple-50 to-indigo-50 animate-fade-in">
                       <p className="text-gray-700 mb-4">{classItem.subtitle}</p>
-                      <div>
+                      <div className="mb-4">
                         <p className="font-semibold text-gray-800 mb-3">Skills Acquired:</p>
                         <div className="flex flex-wrap gap-2">
                           {classItem.skills.map((skill, skillIndex) => (
@@ -345,6 +368,31 @@ const About = () => {
                           ))}
                         </div>
                       </div>
+                      {classItem.labworkLink && (
+                        <div className="pt-4 border-t border-purple-200">
+                          <a
+                            href="#labwork"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              // Scroll to labwork section
+                              const labworkElement = document.getElementById('labwork');
+                              if (labworkElement) {
+                                labworkElement.scrollIntoView({ behavior: 'smooth' });
+                              }
+                              // Expand the corresponding course
+                              setTimeout(() => {
+                                const courseButton = document.getElementById(`course-${classItem.labworkLink}`);
+                                if (courseButton) {
+                                  courseButton.click();
+                                }
+                              }, 300);
+                            }}
+                            className="inline-flex items-center gap-2 text-purple-600 hover:text-indigo-600 font-semibold transition-colors duration-300"
+                          >
+                            View related labs →
+                          </a>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -474,6 +522,424 @@ const Projects = () => {
             </>
           )}
         </button>
+      </div>
+    </div>
+  );
+};
+
+const LabCard = ({ icon: Icon, course, labNumber, title, skills, takeaways }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full text-left p-6 flex items-start justify-between hover:bg-gradient-to-r hover:from-purple-50 hover:to-indigo-50 transition-all duration-300"
+      >
+        <div className="flex items-start gap-4 flex-1">
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <Icon className="w-6 h-6 text-purple-600" />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-sm font-semibold text-purple-600">{course}</span>
+              <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">{labNumber}</span>
+            </div>
+            <h3 className="text-lg font-bold text-gray-800">{title}</h3>
+          </div>
+        </div>
+        <ChevronDown 
+          className={`w-5 h-5 text-purple-600 transition-transform duration-300 flex-shrink-0 mt-1 ${
+            expanded ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
+
+      {expanded && (
+        <div className="px-6 pb-6 space-y-4 animate-fade-in">
+          <div>
+            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+              <Code className="w-4 h-4 text-purple-600" />
+              Skills Gained
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {skills.map((skill, idx) => (
+                <SkillBadge key={idx} skill={skill} />
+              ))}
+            </div>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-purple-600" />
+              Key Takeaways
+            </h4>
+            <ul className="space-y-2">
+              {takeaways.map((takeaway, idx) => (
+                <li key={idx} className="text-gray-700 text-sm flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5" />
+                  <span>{takeaway}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const Labs = () => {
+  const [selectedLab, setSelectedLab] = useState(null);
+  const [expandedCourse, setExpandedCourse] = useState(null);
+
+  const labsData = {
+    'NSSA 441': {
+      title: 'Advanced Network Routing and Switching',
+      icon: Network,
+      labs: [
+        {
+          labNumber: 'Capstone Lab',
+          title: 'Load Balancing',
+          skills: ['Load balancing architecture design', 'Round Robin', 'Weighted Round Robin', 'Least Connection', 'IP Hash', 'Least Response Time', 'Randomized', 'CDN configuration', 'GSLB deployment', 'AWS ELB', 'Alibaba Cloud SLB', 'Google CLB'],
+          takeaways: ['Load balancing improves reliability, scalability, and performance through traffic distribution', 'Different algorithms serve different use cases (e.g., IP Hash for session persistence, Least Connection for capacity-based distribution)', 'CDNs utilize load balancing for latency reduction and bandwidth optimization', 'Real-world applications span from cloud services to streaming platforms and online gaming'],
+          isFavorite: true,
+          favoriteComment: 'Through exploring different load-balancing methodlogies, I gained better insight on how every business, group of ASes, DCNs, and more are upkept even on a global scale.'
+        }
+      ]
+    },
+    'NSSA 245': {
+      title: 'Network Services',
+      icon: Server,
+      labs: [
+        {
+          labNumber: 'Lab 8',
+          title: 'IP Multicast',
+          skills: ['IP multicast traffic configuration', 'iperf server/client setup', 'IGMPv3 protocol', 'Wireshark packet capture', 'TTL configuration', 'Network topology design'],
+          takeaways: ['Multicast requires router support for IGMP to function across networks', 'TTL values critical for multicast packet traversal across multiple networks', 'Multicast uses special MAC addresses (e.g., 01:00:5e:00:60:01) and IP ranges (225.x.x.x)', 'UDP is the transport protocol for multicast traffic']
+        },
+        {
+          labNumber: 'Lab 7',
+          title: 'DNS Part I',
+          skills: ['BIND DNS server installation', 'DNS zone file creation', 'Forward and reverse DNS', 'SOA record configuration', 'nslookup, dig, and host commands', 'SELinux security policy', 'DNS integration'],
+          takeaways: ['FQDN vs PQDN usage in zone data files', 'DNS resolution requires proper forward and reverse zone configuration', 'SRV records enable service discovery in domains', 'named.conf options control DNS server behavior', 'DNS is critical for Active Directory and domain services'],
+          isFavorite: true,
+          favoriteComment: 'Configuring forward and reverse DNS records was insightful to how DNS servers and configured, especially with instructions from named.conf and resolv.conf.'
+        },
+        {
+          labNumber: 'Lab 6',
+          title: 'DHCP Part II',
+          skills: ['Rocky Linux DHCP server config', 'DHCP relay agent setup', 'DHCP failover implementation', 'dhclient.leases file management', 'systemctl and systemd', 'tcpdump and Wireshark', 'DHCP scope and reservation'],
+          takeaways: ['DHCP failover provides redundancy with primary/secondary server architecture', 'Relay agents extend DHCP across network segments', 'Lease files track IP assignments and renewal times', 'DHCP configuration includes subnet declarations, ranges, and options', 'Collision detection prevents duplicate IP assignments']
+        },
+        {
+          labNumber: 'Lab 5',
+          title: 'DHCP Part I',
+          skills: ['Windows Server DHCP installation', 'DORA process analysis', 'DHCP port 67/68 traffic capture', 'IP address release & renewal', 'DHCP lease mgmt', 'RFC 2132 DHCP options'],
+          takeaways: ['DHCP uses ports 67 (server) and 68 (client) for communication', 'DORA process ensures proper IP assignment', 'Lease renewal occurs at 50% of lease duration', 'dhclient.leases (Linux) vs ipconfig /all (Windows) provide lease information', 'BOOTP and DHCP share similar port usage']
+        },
+        {
+          labNumber: 'Lab 4',
+          title: 'SSH Security',
+          skills: ['SSH server configuration', 'SSH key-based authentication', 'ssh-keygen usage', 'SFTP implementation', 'Telnet vs SSH comparison', 'Wireshark analysis', 'Port 22 vs Port 23 analysis'],
+          takeaways: ['SSH provides encrypted communication unlike Telnet', 'Key-based authentication offers stronger security than passwords', 'Public keys stored on server, private keys kept secure on client', 'SSH encrypts entire packet including payload', 'sftp uses port 22 for secure file transfers']
+        },
+        {
+          labNumber: 'Lab 3',
+          title: 'Transport Layer',
+          skills: ['TCP teardown process analysis', 'Telnet client/server configuration', 'TCP state transitions', 'Three-way handshake analysis', 'IP fragmentation and reassembly', 'MTU understanding'],
+          takeaways: ['Telnet is insecure due to plaintext credential transmission', 'TCP connection teardown requires proper FIN-ACK exchange', 'TCP states change during connection lifecycle', 'Fragmentation occurs when packet size exceeds MTU', 'TCP prevents fragmentation through MSS negotiation']
+        },
+        {
+          labNumber: 'Lab 2',
+          title: 'Scapy Packet Manipulation',
+          skills: ['Scapy framework for packet crafting', 'IP spoofing techniques', 'TCP/IP header manipulation', 'SYN flood attack demonstration', 'iptables firewall rules', 'Packet header analysis'],
+          takeaways: ['Scapy allows custom packet creation with arbitrary header values', 'IP spoofing demonstrates lack of source verification', 'SYN floods overwhelm target with incomplete handshakes', 'iptables can drop RST packets to observe connection behavior', 'TCP flags (SYN, ACK, FIN, RST) control connection states']
+        },
+        {
+          labNumber: 'Lab 1',
+          title: 'Network Fundamentals',
+          skills: ['VMware virtual networking config', 'Network topology design', 'ICMP ping testing', 'L2 & L3 analysis', 'Windows & Linux config', 'Network troubleshooting'],
+          takeaways: ['Virtual networks require proper interface and gateway configuration', 'Separate network segments for isolation', 'Connectivity testing essential for validation', 'Network documentation includes IP addresses, masks, gateways, DNS servers']
+        }
+      ]
+    },
+    'Wireless Networking': {
+      title: 'Wireless Networking',
+      icon: Wifi,
+      labs: [
+        {
+          labNumber: 'Lab 5',
+          title: '802.1X and RADIUS Authentication',
+          skills: ['Port-based network access control', 'RADIUS AAA server setup', 'EAP implementation', 'WPA2-Enterprise configuration', 'EAP-TLS and PEAP protocols', 'Wireless client auth', 'TACACS+ comparison'],
+          takeaways: ['802.1X works for both wired and wireless clients', 'Three entities: supplicant (client), authenticator (AP), authentication server (RADIUS)', 'RADIUS uses UDP; TACACS+ uses encrypted TCP', 'EAP provides flexibility for multiple authentication methods', 'WPA2-Enterprise offers certificate-based or username/password authentication']
+        },
+        {
+          labNumber: 'Lab 4',
+          title: '802.11n and Advanced Wi-Fi Features',
+          skills: ['MCS (Modulation Coding Scheme)', 'Spatial streams and MIMO', 'Guard interval optimization', 'QAM', 'Channel bonding', 'A-MPDU analysis', 'RTS/CTS and Block-ACK mechanisms', 'IP fragmentation over wireless'],
+          takeaways: ['MCS determines optimal data rate based on channel conditions', '802.11n offers higher throughput through aggregation', 'A-MPDUs reduce overhead by combining multiple frames', 'Channel bonding increases bandwidth but requires compatible equipment', 'Guard intervals prevent inter-symbol interference'],
+          isFavorite: true,
+          favoriteComment: 'Understanding the MCS table provides crucial knowledge on how wireless tech must achieve stable rates, highlighting the modulation techniques that help conserve bandwidth and prevent channel overlap.'
+        },
+        {
+          labNumber: 'Lab 3',
+          title: 'iPerf Network Performance Testing',
+          skills: ['iPerf3 client/server configuration', 'TCP and UDP throughput testing', 'Bandwidth measurement and analysis', 'Network performance metrics interpretation', 'Wireless vs wired comparison', 'Multi-client contention analysis', 'Wireshark traffic capture'],
+          takeaways: ['TCP shows more retransmissions and out-of-order packets under contention', 'Wireless performance significantly lower than wired', 'Multiple wireless clients cause severe contention and dropped connections', 'UDP provides consistent streaming without handshake overhead', 'Performance metrics help identify network bottlenecks'],
+          isFavorite: true,
+          favoriteComment: 'This introduction to iPerf got me hooked onto using it to perform metric tests. It is very useful when weighing wireless networks against each other, testing signal strength for APs, and observing what traffic is being transmitted.'
+        },
+        {
+          labNumber: 'Lab 2',
+          title: 'Wireless Frame Analysis and Security',
+          skills: ['Probe Request/Response frame analysis', 'Active scanning process', 'Authentication exchange', 'Association process', 'RSN configuration', 'WPA/WPA2 security comparison', 'EAPOL key exchange analysis', 'Wireless frame encryption/decryption'],
+          takeaways: ['Probe Requests can be broadcast (discovery) or directed (reconnection)', 'Authentication differs from Association', 'RSN provides advanced encryption and key management', 'Group ciphers for multicast/broadcast; pairwise ciphers for unicast', 'WPA2 uses AES-CCMP (superior to WPA\'s TKIP)']
+        },
+        {
+          labNumber: 'Lab 1',
+          title: 'Wireless Fundamentals',
+          skills: ['802.11 frame structure analysis', 'Beacon frame examination', 'Radio information header interpretation', 'OFDM understanding', 'Channel and frequency relationship', 'SSID and BSSID identification', 'ESS vs IBSS topology', 'LLC layer purpose', 'Cisco EWC configuration'],
+          takeaways: ['Beacon frames broadcast AP capabilities and SSID', 'Radio header contains modulation scheme, data rate, channel, frequency, signal strength', 'SSID is network name; BSSID is AP MAC address', '802.11 requires LLC layer due to wireless reliability challenges', 'Four addresses in 802.11 header: receiver, destination, transmitter, source']
+        }
+      ]
+    },
+    'NSSA 221': {
+      title: 'Systems Administration I',
+      icon: Server,
+      labs: [
+        {
+          labNumber: 'Lab 6',
+          title: 'Web, Mail, and Task Scheduling Services',
+          skills: ['Apache web server configuration', 'DocumentRoot directive management', 'Virtual host setup', 'SSL/TLS certificate generation', 'HTTPS configuration', 'MUA/MDA/MTA understanding', 'SMTP, POP3, and IMAP configuration', 'Postfix and Dovecot setup', 'Rsyslog configuration', 'Cron, at, & anacron scheduling'],
+          takeaways: ['DocumentRoot defines web content location (default /var/www/html)', 'Virtual hosts allow multiple websites on single server', 'Self-signed certificates provide encryption but lack external validation', 'MUA uses SMTP to send; POP3/IMAP to receive', 'Cron for recurring tasks; at for one-time; anacron handles system downtime']
+        },
+        {
+          labNumber: 'Lab 4',
+          title: 'Storage Management (RAID and LVM)',
+          skills: ['RAID configuration (RAID 0, 1, 5)', 'Mirroring, striping, and parity', 'mdadm RAID management', 'RAID redundancy and rebuild', 'LVM setup', 'Physical volumes and logical volumes', 'Filesystem mounting', '/etc/fstab configuration', 'Partition table types (MBR vs GPT)'],
+          takeaways: ['RAID 0: striping for performance, no redundancy', 'RAID 1: mirroring for redundancy, 50% storage efficiency', 'RAID 5: striping with parity, can survive single drive failure', 'LVM provides flexible storage management with online resizing', 'GPT supports >2TB drives and 128 partitions (vs MBR\'s 4)']
+        },
+        {
+          labNumber: 'Lab 3',
+          title: 'Git Version Control and SSH Security',
+          skills: ['Git repository initialization', 'Git commit workflow', 'Branch management and merging', 'SSH key-based authentication setup', 'Authorized_keys file configuration', 'ps command for process monitoring', 'SSH key generation and fingerprint verification'],
+          takeaways: ['Git tracks changes through blob objects (local and remote)', 'Commit messages document repository changes', 'SSH keys provide more secure authentication than passwords', 'Public key stored on server; private key on client', 'Git config --global sets user identity for commits']
+        },
+        {
+          labNumber: 'Lab 2',
+          title: 'Active Directory and Group Policy',
+          skills: ['Windows Server AD installation', 'Domain Controller deployment', 'DNS integration with AD', 'Organizational Unit (OU) creation', 'Group Policy Object (GPO) creation', 'User account mgmt', 'DHCP scope config', 'PowerShell AD cmdlets', 'SamAccountName vs User Principal Name'],
+          takeaways: ['Domain Controllers manage authentication and group policies', 'DNS SRV records enable AD service discovery', 'OUs create administrative boundaries; GPOs create security boundaries', 'GPO precedence: Local → Site → Domain → OU', 'Enterprise Admins (forest-wide), Schema Admins (directory structure), Domain Admins (domain-wide)'],
+          isFavorite: true,
+          favoriteComment: 'Configuring Active Directory through Windows Server features was insightful. Joining other Windows client VMs I started to the domain to see the effect of my set GPOs was also cool!'
+        },
+        {
+          labNumber: 'Lab 1',
+          title: 'pfSense and Virtual Network Setup',
+          skills: ['pfSense firewall/router configuration', 'NAT (Network Address Translation) setup', 'WAN/LAN interface configuration', 'RFC 1918 private IP addressing', 'IP Masquerading understanding', 'VMware Workstation networking', 'VM snapshot mgmt', 'Linux man pages navigation', 'Windows PowerShell Get-Help command'],
+          takeaways: ['pfSense separates private LAN from public WAN using NAT', 'IP Masquerading allows multiple devices to share single public IP', 'Full clones: independent, better performance; Linked clones: faster creation', 'Snapshots enable quick rollback for testing and troubleshooting', 'NAT translates private IPs to public IP for internet access'],
+          isFavorite: true,
+          favoriteComment: 'Configuring pfSense interfaces on a VM and configuring IPs and Gateways for the Windows/Linux VMs was great practice. Having the Windows/Linux VMs serve as clients and servers (DNS/DHCP) was the closest I got to homelabbing away from home!'
+        }
+      ]
+    },
+    'NSSA 220': {
+      title: 'Task Automation Using Interpretive Languages',
+      icon: Terminal,
+      labs: [
+        {
+          labNumber: 'Lab 1',
+          title: 'Linux Commands',
+          skills: ['Advanced Linux command-line proficiency', 'Regular expressions (regex)', 'Pipe and redirection operators', 'Text processing with grep, sed, awk', 'CSV data manipulation', 'File system navigation', 'Error stream redirection', 'Complex command construction'],
+          takeaways: ['Regex patterns for file matching', 'Find command with filters to locate inaccessible directories', 'CSV to text file conversion with delimiter replacement', 'Data filtering and sorting with awk and sort', 'Multi-field output formatting']
+        },
+        {
+          labNumber: 'Lab 2',
+          title: 'Bash Scripting',
+          skills: ['Bash script development', 'Command-line argument parsing', 'Random number generation', 'Function creation and usage', 'File I/O operations', 'User account mgmt with useradd', 'File permissions and ownership modification', 'Directory structure creation', 'Interactive script prompts and loops'],
+          takeaways: ['Scripts accept parameters stored in variables ($1, $2, $3)', 'Functions modularize code', '$RANDOM generates numbers 0-32767; custom ranges require modulo operations', 'Automated user provisioning with custom home directory setup', 'System administration automation reduces manual configuration errors']
+        },
+        {
+          labNumber: 'Lab 3',
+          title: 'Python Data Processing',
+          skills: ['Python script dev', 'Command-line argument handling (sys.argv)', 'File reading and parsing', 'Data structure manipulation (Lists, Dictionaries)', 'Statistical analysis (min, max, average, standard deviation)', 'CSV data processing', 'MD5 hash comparison', 'System call execution in Python', 'Algorithm implementation for data mining'],
+          takeaways: ['Iris dataset (demo file) analysis demonstrates machine learning data preprocessing', 'Functions separate concerns (read_data, process_numeric_field, count_iris_types)', 'Statistical calculations essential for data analysis', 'MD5 message digests verify file integrity and detect compromises', 'Python\'s flexibility for both data science and system administration'],
+          isFavorite: true,
+          favoriteComment: 'Through coding scripts for parsing through file info. and file logs demonstrated to me the capabilities python has for collecting and reporting crucial computer metrics. This skill I utilize in my NOC Dashboard.'
+        }
+      ]
+    }
+  };
+
+  return (
+    <div id="labwork" className="w-full px-4 py-20 bg-gradient-to-b from-transparent to-purple-50/30">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+          Technical Labs & Coursework
+        </h2>
+        <div className="w-20 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 mx-auto rounded-full mb-4"></div>
+        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          23 hands-on labs across networking, systems administration, wireless technologies, and automation
+        </p>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Left Sidebar - Course and Lab List */}
+        <div className="lg:col-span-1 space-y-3">
+          {Object.entries(labsData).map(([courseCode, courseData]) => {
+            const CourseIcon = courseData.icon;
+            const isExpanded = expandedCourse === courseCode;
+            
+            return (
+              <div key={courseCode} className="space-y-2">
+                {/* Course Header - Clickable */}
+                <button
+                  id={`course-${courseCode}`}
+                  onClick={() => setExpandedCourse(isExpanded ? null : courseCode)}
+                  className="w-full flex items-center gap-3 px-4 py-3 bg-white rounded-lg shadow-sm border border-purple-100 hover:bg-purple-50 transition-all duration-300"
+                >
+                  <CourseIcon className="w-5 h-5 text-purple-600 flex-shrink-0" />
+                  <div className="flex-1 text-left">
+                    <p className="text-xs font-semibold text-purple-600">{courseCode}</p>
+                    <p className="text-sm font-medium text-gray-800">{courseData.title}</p>
+                  </div>
+                  <ChevronDown 
+                    className={`w-4 h-4 text-purple-600 transition-transform duration-300 flex-shrink-0 ${
+                      isExpanded ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {/* Labs List - Collapsible */}
+                {isExpanded && (
+                  <div className="space-y-2 pl-2 animate-fade-in">
+                    {courseData.labs
+                      .slice()
+                      .sort((a, b) => {
+                        const aNum = parseInt(a.labNumber.match(/\d+/)?.[0] ?? '999');
+                        const bNum = parseInt(b.labNumber.match(/\d+/)?.[0] ?? '999');
+                        return aNum - bNum;
+                      })
+                      .map((lab, idx) => {
+                      const labId = `${courseCode}-${courseData.labs.indexOf(lab)}`;
+                      const isSelected = selectedLab === labId;
+
+                      return (
+                        <button
+                          key={labId}
+                          onClick={() => setSelectedLab(labId)}
+                          className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 ${
+                            isSelected
+                              ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
+                              : 'bg-white text-gray-800 hover:bg-purple-50 border border-gray-200 shadow-sm'
+                          }`}
+                        >
+                          <div className="flex-1">
+                            <p className="text-xs font-semibold opacity-75">{lab.labNumber}</p>
+                            <p className="text-sm font-medium">{lab.title}</p>
+                          </div>
+                          {lab.isFavorite && (
+                            <Star 
+                              className={`w-4 h-4 flex-shrink-0 ${
+                                isSelected ? 'text-yellow-300' : 'text-yellow-400'
+                              }`}
+                              fill="currentColor"
+                            />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Right Panel - Lab Details */}
+        <div className="lg:col-span-2">
+          {selectedLab ? (
+            (() => {
+              // Find the selected lab
+              let selectedLabData = null;
+              let courseName = null;
+
+              for (const [courseCode, courseData] of Object.entries(labsData)) {
+                const parts = selectedLab.split('-');
+                const idx = parseInt(parts[1]);
+                if (courseCode === parts[0] && courseData.labs[idx]) {
+                  selectedLabData = courseData.labs[idx];
+                  courseName = courseCode;
+                  break;
+                }
+              }
+
+              return selectedLabData ? (
+                <div className="bg-white rounded-2xl shadow-lg p-8 animate-fade-in">
+                  <div className="mb-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-sm font-semibold text-purple-600 px-3 py-1 bg-purple-50 rounded-full">{courseName}</span>
+                      <span className="text-xs font-semibold text-gray-600 px-3 py-1 bg-gray-100 rounded-full">{selectedLabData.labNumber}</span>
+                    </div>
+                    <h3 className="text-3xl font-bold text-gray-800">{selectedLabData.title}</h3>
+                  </div>
+
+                  {/* Skills Section */}
+                  <div className="mb-8">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Code className="w-5 h-5 text-purple-600" />
+                      <h4 className="text-xl font-bold text-gray-800">Skills Gained</h4>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedLabData.skills.map((skill, idx) => (
+                        <SkillBadge key={idx} skill={skill} />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Takeaways Section */}
+                  <div className="mb-8">
+                    <div className="flex items-center gap-2 mb-4">
+                      <BookOpen className="w-5 h-5 text-purple-600" />
+                      <h4 className="text-xl font-bold text-gray-800">Key Takeaways</h4>
+                    </div>
+                    <ul className="space-y-3">
+                      {selectedLabData.takeaways.map((takeaway, idx) => (
+                        <li key={idx} className="text-gray-700 flex items-start gap-3">
+                          <ChevronRight className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                          <span>{takeaway}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Favorite Comment Section */}
+                  {selectedLabData.isFavorite && (
+                    <div className="pt-8 border-t border-purple-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Star className="w-5 h-5 text-yellow-500" fill="currentColor" />
+                        <h4 className="text-xl font-bold text-gray-800">Why I Love This Lab</h4>
+                      </div>
+                      {selectedLabData.favoriteComment ? (
+                        <p className="text-gray-700 leading-relaxed">{selectedLabData.favoriteComment}</p>
+                      ) : (
+                        <p className="text-gray-400 italic">No comment yet</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ) : null;
+            })()
+          ) : (
+            <div className="bg-white rounded-2xl shadow-lg p-12 flex items-center justify-center min-h-[500px]">
+              <div className="text-center">
+                <Code className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-500 text-lg font-medium">Select a lab to view details</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -679,6 +1145,7 @@ const App = () => {
       <Hero />
       <About />
       <Projects />
+      <Labs />
       <Contact />
       
       <footer className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-8 mt-20 w-full">
